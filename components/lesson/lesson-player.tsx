@@ -86,6 +86,7 @@ export function LessonPlayer({
   }
 
   async function handleNext() {
+    if (!current) return;
     const section = current;
     await markVisited(section, true);
     setCompletedKinds((prev) => new Set(prev).add(section.kind));
