@@ -1,0 +1,188 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { createClient } from "@/lib/supabase/server";
+import {
+  signupSchema,
+  loginSchema,
+  resetRequestSchema,
+  resetPasswordSchema,
+} from "@/schemas/auth";
+import { publicEnv } from "@/lib/env";
+
+type ActionState =
+  | { ok: true; message?: string }
+  | { ok: false; error: string; fieldErrors?: Record<string, string[]> };
+
+/**
+ * Signup com email/senha. Supabase envia email de confirmação por padrão.
+ * Em dev: habilitar auto-confirm no dashboard para evitar fricção.
+ */
+export async function signupAction(
+  _prev: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = signupSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    display_name: formData.get("display_name") || undefined,
+    accept_terms: formData.get("accept_terms") === "on" || undefined,
+  });
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Confira os campos abaixo.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signUp({
+    email: parsed.data.email,
+    password: parsed.data.password,
+    options: {
+      emailRedirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      data: parsed.data.display_name
+        ? { display_name: parsed.data.display_name }
+        : undefined,
+    },
+  });
+
+  if (error) {
+    return { ok: false, error: translateAuthError(error.message) };
+  }
+
+  // Marca aceite de termos quando sessão já foi criada (auto-confirm ligado).
+  if (data.user) {
+    await supabase
+      .from("profiles")
+      .update({
+        terms_accepted_at: new Date().toISOString(),
+        privacy_accepted_at: new Date().toISOString(),
+        display_name: parsed.data.display_name ?? null,
+      })
+      .eq("id", data.user.id);
+  }
+
+  // Se Supabase exige email confirmation (default), não há sessão ainda.
+  if (!data.session) {
+    return {
+      ok: true,
+      message:
+        "Enviamos um email de confirmação. Clique no link para ativar sua conta.",
+    };
+  }
+
+  // Auto-confirm ativo — vai direto para onboarding.
+  revalidatePath("/", "layout");
+  redirect("/onboarding/welcome");
+}
+
+export async function loginAction(
+  _prev: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = loginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Confira os campos abaixo.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email: parsed.data.email,
+    password: parsed.data.password,
+  });
+
+  if (error) {
+    return { ok: false, error: translateAuthError(error.message) };
+  }
+
+  const next = (formData.get("next") as string) || "/dashboard";
+  revalidatePath("/", "layout");
+  redirect(next);
+}
+
+export async function logoutAction(): Promise<void> {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
+export async function requestPasswordResetAction(
+  _prev: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = resetRequestSchema.safeParse({
+    email: formData.get("email"),
+  });
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Email inválido.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    parsed.data.email,
+    { redirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback?type=recovery` },
+  );
+  if (error) {
+    return { ok: false, error: translateAuthError(error.message) };
+  }
+  return {
+    ok: true,
+    message:
+      "Se o email existir na base, você receberá um link para redefinir a senha.",
+  };
+}
+
+export async function updatePasswordAction(
+  _prev: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const parsed = resetPasswordSchema.safeParse({
+    password: formData.get("password"),
+    confirm: formData.get("confirm"),
+  });
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Confira os campos abaixo.",
+      fieldErrors: parsed.error.flatten().fieldErrors,
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({
+    password: parsed.data.password,
+  });
+  if (error) {
+    return { ok: false, error: translateAuthError(error.message) };
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/dashboard");
+}
+
+// ----------------------------------------------------------------------------
+
+function translateAuthError(raw: string): string {
+  const msg = raw.toLowerCase();
+  if (msg.includes("invalid login credentials")) return "Email ou senha inválidos.";
+  if (msg.includes("email not confirmed")) return "Confirme seu email antes de entrar.";
+  if (msg.includes("user already registered")) return "Já existe uma conta com esse email.";
+  if (msg.includes("password should be at least")) return "Senha muito curta.";
+  if (msg.includes("email rate limit exceeded")) return "Muitas tentativas — tente de novo em alguns minutos.";
+  return raw;
+}

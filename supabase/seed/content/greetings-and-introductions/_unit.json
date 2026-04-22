@@ -1,0 +1,31 @@
+{
+  "slug": "greetings-and-introductions",
+  "order_index": 1,
+  "title_en": "Greetings & Introductions",
+  "title_pt_br": "Cumprimentos e apresentações",
+  "theme": "social",
+  "level": "a0",
+  "estimated_minutes": 60,
+  "objectives": [
+    {
+      "i_can_pt_br": "Cumprimentar alguém de forma formal e informal.",
+      "i_can_en": "Greet someone formally and informally.",
+      "skill_tag": "greetings"
+    },
+    {
+      "i_can_pt_br": "Dizer meu nome e perguntar o nome do outro.",
+      "i_can_en": "Say my name and ask someone theirs.",
+      "skill_tag": "introduce-self"
+    },
+    {
+      "i_can_pt_br": "Falar de onde sou.",
+      "i_can_en": "Say where I am from.",
+      "skill_tag": "nationality-basic"
+    },
+    {
+      "i_can_pt_br": "Me despedir educadamente.",
+      "i_can_en": "Say goodbye politely.",
+      "skill_tag": "farewells"
+    }
+  ]
+}

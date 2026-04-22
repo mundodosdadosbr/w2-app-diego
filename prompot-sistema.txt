@@ -1,0 +1,370 @@
+Quero que você crie um sistema completo de aprendizado de inglês inspirado na ESTRUTURA PEDAGÓGICA desta apostila que estou usando, mas SEM copiar texto, imagens, exercícios, diagramação ou conteúdo protegido. Reaproveite apenas o MÉTODO de ensino e a lógica instrucional.
+
+OBJETIVO DO SISTEMA
+Criar uma plataforma/app web de estudo de inglês que aplique diretamente as táticas didáticas da apostila:
+- progressão por trilha de aprendizagem;
+- organização em unidades e lessons;
+- fluxo pedagógico em 3 etapas: INPUT -> OUTPUT -> REVIEW;
+- apresentação incremental de vocabulário, frases úteis, gramática e prática oral;
+- exercícios de repetição, compreensão, substituição, role-play, pronúncia e autoavaliação;
+- foco em conversação funcional e uso prático no dia a dia;
+- revisão recorrente e reforço espaçado.
+
+IMPORTANTE
+- NÃO copiar conteúdo literal da apostila.
+- NÃO reproduzir layout idêntico.
+- NÃO reutilizar textos, diálogos, imagens ou exercícios originais.
+- Criar conteúdo novo, original e equivalente em metodologia.
+- O sistema deve ser inspirado na lógica de ensino, não na reprodução da obra.
+
+PÚBLICO-ALVO
+- Falantes de português do Brasil.
+- Iniciantes e iniciantes avançando para básico/intermediário.
+- Pessoas que querem aprender inglês de forma prática, guiada e conversacional.
+
+ARQUITETURA PEDAGÓGICA QUE O SISTEMA DEVE IMPLEMENTAR
+
+1. TRILHA DE APRENDIZAGEM
+Cada unidade deve exibir claramente:
+- o que o aluno será capaz de fazer ao final;
+- habilidades comunicativas por objetivo;
+- progresso por unidade e por lesson;
+- checklist de competências.
+
+Exemplo de estrutura de competência:
+- cumprimentar pessoas;
+- falar sobre comida;
+- dizer preferências;
+- pedir algo;
+- pedir informações;
+- falar de rotina;
+- falar de lugares, países, família, trabalho;
+- fazer perguntas e respostas simples.
+
+2. ESTRUTURA DE CADA UNIDADE
+Cada unidade deve conter:
+- título do tema;
+- objetivos comunicativos;
+- lições sequenciais;
+- revisão final da unidade;
+- autoavaliação final.
+
+3. ESTRUTURA DE CADA LESSON
+Toda lesson deve seguir esta sequência:
+
+A. INPUT
+Apresentar novo conteúdo em blocos:
+- Verbs
+- New Words
+- Useful Phrases
+- Grammar
+
+B. CONTEXTUALIZAÇÃO
+Apresentar uso real por meio de:
+- Real Life
+- exemplos contextualizados
+- mini diálogos
+- situações do cotidiano
+
+C. FIXAÇÃO
+Blocos como:
+- Check it out
+- associação de padrões
+- transformação de frases
+- substituição de palavras
+- drills guiados
+
+D. OUTPUT
+Produção ativa do aluno:
+- Speak Right Now
+- Talk to Your Friend
+- Listen and Practice
+- Listen, Number, and Role-play
+- Fluency
+- perguntas abertas guiadas
+- simulações de diálogos
+
+E. PRONÚNCIA
+- Improve Your Pronunciation
+- foco em sons, pares mínimos, ritmo e chunks
+- treino de repetição com TTS e gravação do aluno
+
+F. REVIEW
+- Pinpoint
+- revisão dos principais padrões
+- exercícios curtos cumulativos
+
+G. SELF-ASSESSMENT
+- checklist “I can”
+- “I’m not sure if I can”
+- recomendações automáticas de revisão com base no desempenho
+
+4. LÓGICA DE ENSINO
+O sistema deve ensinar com base nestes princípios:
+- microaprendizado;
+- repetição com variação;
+- uso imediato da estrutura aprendida;
+- progressão do simples para o complexo;
+- vocabulário sempre contextualizado;
+- gramática funcional, não excessivamente teórica;
+- muita produção ativa;
+- revisão cumulativa;
+- autoavaliação no final de cada ciclo.
+
+5. FUNCIONALIDADES OBRIGATÓRIAS
+Implemente:
+
+5.1 Dashboard do aluno
+- progresso geral;
+- unidade atual;
+- lessons concluídas;
+- habilidades dominadas;
+- streak diária;
+- pontos e nível;
+- pendências de revisão.
+
+5.2 Motor de conteúdo
+- unidades temáticas;
+- lessons parametrizadas;
+- possibilidade de cadastrar temas, vocabulário, estruturas, frases e exercícios;
+- geração automática de lições a partir de templates pedagógicos.
+
+5.3 Player da lesson
+Cada lesson deve ter seções navegáveis:
+- Verbs
+- New Words
+- Useful Phrases
+- Grammar
+- Real Life
+- Check it out
+- Speaking Practice
+- Pronunciation
+- Review
+- Self-assessment
+
+5.4 Exercícios interativos
+Criar tipos de exercício como:
+- repetição de frase;
+- múltipla escolha;
+- completar lacunas;
+- ordenar palavras;
+- associação palavra-imagem;
+- associação inglês-português;
+- responder perguntas curtas;
+- montar frases;
+- role-play com IA;
+- shadowing;
+- pronúncia com gravação;
+- quiz de revisão.
+
+5.5 Speaking Practice com IA
+- chatbot conversacional em inglês;
+- correção gentil;
+- mostrar versão correta;
+- mostrar tradução opcional;
+- explicar erro em português;
+- adaptar dificuldade;
+- permitir modo “resposta curta” e “conversa livre”.
+
+5.6 Pronunciation Coach
+- botão de ouvir;
+- botão de gravar;
+- comparação entre frase esperada e frase falada;
+- feedback simples: pronúncia boa / precisa melhorar;
+- destacar palavras problemáticas;
+- repetir por chunks.
+
+5.7 Revisão espaçada
+- agendar revisões automáticas;
+- revisar vocabulário, estruturas e frases;
+- usar desempenho para recalcular prioridade;
+- revisar nos ciclos: 1 dia, 3 dias, 7 dias, 14 dias, 30 dias.
+
+5.8 Autoavaliação
+Ao final de cada unidade:
+- checklist de objetivos;
+- confiança do aluno;
+- recomendações automáticas;
+- sugerir reforço em lições específicas.
+
+6. ESTRUTURA CURRICULAR INICIAL
+Crie pelo menos 10 unidades iniciais com temas práticos, por exemplo:
+1. Greetings and Introductions
+2. Food and Drinks
+3. Languages and Countries
+4. Personal Information and Routine
+5. Lifestyle and Weekly Planning
+6. Places in the City
+7. Shopping and Services
+8. Travel and Directions
+9. Health and Appointments
+10. Work and Study
+
+Cada unidade deve conter:
+- 4 a 6 lessons;
+- objetivos comunicativos;
+- vocabulário principal;
+- estruturas gramaticais funcionais;
+- tarefas de output;
+- review;
+- self-assessment.
+
+7. PERFIL DO CONTEÚDO
+O conteúdo gerado deve ser:
+- natural;
+- cotidiano;
+- útil;
+- conversacional;
+- curto;
+- progressivo;
+- adequado para brasileiros;
+- com tradução de apoio opcional, e não dominante.
+
+8. EXPERIÊNCIA DO USUÁRIO
+Quero uma UX clara, moderna e motivadora:
+- interface limpa;
+- visual de progresso;
+- cards por lição;
+- botões grandes;
+- modo mobile first;
+- dark mode opcional;
+- indicador INPUT / OUTPUT / REVIEW;
+- feedback instantâneo;
+- sensação de avanço visível.
+
+9. REQUISITOS TÉCNICOS
+Quero que você entregue um projeto pronto para produção com:
+
+FRONTEND
+- React ou Next.js com TypeScript
+- Tailwind CSS
+- componentes reutilizáveis
+- estado bem organizado
+- responsivo
+
+BACKEND
+- Supabase ou Node.js com PostgreSQL
+- autenticação
+- banco relacional bem modelado
+- API para lessons, progresso, revisões e sessões de speaking
+
+IA
+- integração com modelo para role-play, correção de frases e geração adaptativa
+- prompts internos bem definidos
+- proteção para não gerar conteúdo fora do nível do aluno
+
+ÁUDIO
+- TTS para ouvir frases
+- STT para captar fala do aluno
+- módulo de pronúncia com score simples
+
+10. MODELAGEM DE DADOS
+Crie o schema completo, incluindo tabelas como:
+- users
+- profiles
+- units
+- lessons
+- lesson_sections
+- vocabulary_items
+- phrase_patterns
+- grammar_points
+- exercises
+- exercise_attempts
+- speaking_sessions
+- pronunciation_attempts
+- reviews
+- self_assessments
+- skill_checkpoints
+- learning_path_progress
+
+11. REGRAS DE NEGÓCIO
+- lesson só é concluída ao atingir critérios mínimos;
+- review é desbloqueado após lessons principais;
+- autoavaliação alimenta recomendações;
+- speaking impacta domínio da habilidade;
+- erros frequentes geram revisão automática;
+- sistema adapta próximos exercícios ao desempenho do aluno.
+
+12. ENTREGA QUE EU QUERO DE VOCÊ
+Quero que você gere:
+
+1. visão geral do produto;
+2. arquitetura técnica;
+3. arquitetura pedagógica;
+4. modelagem do banco;
+5. fluxos de usuário;
+6. wireframe textual das telas;
+7. backlog MVP;
+8. roadmap de evolução;
+9. estrutura de pastas do projeto;
+10. código inicial do sistema;
+11. exemplos de unidades e lessons já preenchidas;
+12. prompts internos da IA para:
+   - tutor,
+   - speaking partner,
+   - corretor de frases,
+   - recomendador de revisão.
+
+13. TELAS DO SISTEMA
+Crie pelo menos estas telas:
+- login/cadastro;
+- onboarding com teste de nível;
+- dashboard;
+- trilha de aprendizagem;
+- unidade;
+- lesson player;
+- speaking practice;
+- pronunciation practice;
+- review center;
+- self-assessment;
+- perfil;
+- configurações.
+
+14. EXEMPLO DE COMPORTAMENTO DO TUTOR IA
+O tutor deve:
+- falar de forma amigável e objetiva;
+- corrigir sem constranger;
+- priorizar comunicação antes de perfeição;
+- explicar em português quando necessário;
+- incentivar repetição e prática;
+- adaptar-se ao nível do aluno.
+
+15. DIFERENCIAL
+Adicionar:
+- modo “estudar hoje” com trilha diária pronta;
+- metas semanais;
+- desafios de speaking;
+- ranking pessoal de habilidades;
+- relatório de evolução;
+- modo “só conversação”;
+- modo “só revisão”.
+
+16. PADRÕES DE IMPLEMENTAÇÃO
+- código limpo;
+- componentes desacoplados;
+- tipagem forte;
+- documentação;
+- seeds iniciais;
+- exemplos reais de uso;
+- arquitetura escalável.
+
+17. O QUE FAZER AGORA
+Comece entregando nesta ordem:
+1. Product Requirements Document (PRD)
+2. arquitetura do sistema
+3. schema do banco
+4. backlog MVP priorizado
+5. estrutura do projeto
+6. implementação inicial do frontend
+7. implementação inicial do backend
+8. seed com 2 unidades completas de exemplo
+9. prompts internos da IA
+10. instruções para rodar localmente
+
+Sempre tome decisões de produto e arquitetura que favoreçam:
+- simplicidade,
+- clareza,
+- escalabilidade,
+- boa pedagogia,
+- alta retenção do aluno,
+- prática real de inglês.

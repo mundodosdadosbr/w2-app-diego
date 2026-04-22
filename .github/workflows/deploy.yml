@@ -1,0 +1,52 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  db-push:
+    name: Supabase DB Push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Link project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase link --project-ref ${{ vars.SUPABASE_PROJECT_REF }}
+      - name: Push migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: supabase db push
+
+  edge-functions:
+    name: Supabase Edge Functions
+    runs-on: ubuntu-latest
+    needs: db-push
+    # Só dispara se houver alterações em supabase/functions
+    if: contains(github.event.head_commit.modified, 'supabase/functions')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          for fn in supabase/functions/*/; do
+            name=$(basename "$fn")
+            [ "$name" = "_shared" ] && continue
+            supabase functions deploy "$name" --project-ref ${{ vars.SUPABASE_PROJECT_REF }}
+          done
+
+  # O deploy do frontend é gerenciado pela Vercel (hook do GitHub).
+  # Mantemos essa job como placeholder caso a gente mude de provider.

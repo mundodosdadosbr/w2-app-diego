@@ -1,0 +1,220 @@
+{
+  "slug": "whats-your-name",
+  "order_index": 2,
+  "title_en": "What's your name?",
+  "title_pt_br": "Qual é o seu nome?",
+  "level": "a0",
+  "estimated_minutes": 12,
+  "vocabulary": [
+    {
+      "en": "name",
+      "pt_br": "nome",
+      "part_of_speech": "noun",
+      "example_en": "My name is Alex.",
+      "example_pt_br": "Meu nome é Alex.",
+      "tags": ["basics", "introductions"]
+    },
+    {
+      "en": "my",
+      "pt_br": "meu / minha",
+      "part_of_speech": "pronoun",
+      "example_en": "My book is here.",
+      "example_pt_br": "Meu livro está aqui.",
+      "tags": ["pronouns", "possessives"]
+    },
+    {
+      "en": "your",
+      "pt_br": "seu / sua / teu / tua",
+      "part_of_speech": "pronoun",
+      "example_en": "What is your name?",
+      "example_pt_br": "Qual é o seu nome?",
+      "tags": ["pronouns", "possessives"]
+    },
+    {
+      "en": "his",
+      "pt_br": "dele / seu (masculino)",
+      "part_of_speech": "pronoun",
+      "example_en": "His name is Tom.",
+      "example_pt_br": "O nome dele é Tom.",
+      "tags": ["pronouns", "possessives"]
+    },
+    {
+      "en": "her",
+      "pt_br": "dela / seu (feminino)",
+      "part_of_speech": "pronoun",
+      "example_en": "Her name is Ana.",
+      "example_pt_br": "O nome dela é Ana.",
+      "tags": ["pronouns", "possessives"]
+    },
+    {
+      "en": "what",
+      "pt_br": "o que / qual",
+      "part_of_speech": "pronoun",
+      "example_en": "What is this?",
+      "example_pt_br": "O que é isso?",
+      "tags": ["question-words"]
+    }
+  ],
+  "phrases": [
+    {
+      "en": "What's your name?",
+      "pt_br": "Qual é o seu nome?",
+      "function_tag": "asking-name"
+    },
+    {
+      "en": "My name is ___.",
+      "pt_br": "Meu nome é ___.",
+      "function_tag": "stating-name"
+    },
+    {
+      "en": "His name is ___.",
+      "pt_br": "O nome dele é ___.",
+      "function_tag": "introducing-third-person"
+    },
+    {
+      "en": "Her name is ___.",
+      "pt_br": "O nome dela é ___.",
+      "function_tag": "introducing-third-person"
+    },
+    {
+      "en": "Nice to meet you.",
+      "pt_br": "Prazer em te conhecer.",
+      "function_tag": "meeting-response"
+    }
+  ],
+  "grammar": [
+    {
+      "title_pt_br": "Pronomes possessivos básicos",
+      "title_en": "Basic possessive pronouns",
+      "explanation_pt_br": "Em inglês, os pronomes possessivos mudam conforme a pessoa. 'My' é meu/minha, 'your' é seu/sua (você), 'his' é dele e 'her' é dela. Eles vêm sempre antes do substantivo.",
+      "explanation_en": "Possessive pronouns change by person. My, your, his, her come before the noun.",
+      "rule_pattern": "[my / your / his / her] + [noun]",
+      "examples": [
+        { "en": "My name is Carlos.", "pt_br": "Meu nome é Carlos." },
+        { "en": "Your name is Ana.", "pt_br": "Seu nome é Ana." },
+        { "en": "His name is Bob.", "pt_br": "O nome dele é Bob." },
+        { "en": "Her name is Mary.", "pt_br": "O nome dela é Mary." }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "kind": "intro",
+      "order_index": 1,
+      "title": "Intro",
+      "required": true,
+      "payload": {
+        "objectives": [
+          "Ask someone's name in English",
+          "Say your own name",
+          "Introduce a third person"
+        ]
+      }
+    },
+    {
+      "kind": "new_words",
+      "order_index": 2,
+      "title": "New Words",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "handy_phrases",
+      "order_index": 3,
+      "title": "Handy Phrases",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "drill",
+      "order_index": 4,
+      "title": "Drill",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "fill_blank",
+          "prompt_pt_br": "Complete: \"___ name is Maria.\" (ela)",
+          "payload": {
+            "sentence": "___ name is Maria.",
+            "hint": "pronome possessivo feminino"
+          },
+          "expected": { "answer": "Her", "alternatives": ["her"] },
+          "scoring": { "method": "exact_ci" }
+        },
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Como se pergunta o nome de alguém em inglês?",
+          "payload": {
+            "options": [
+              "What's your name?",
+              "Where are you?",
+              "How are you?",
+              "Who is this?"
+            ]
+          },
+          "expected": { "correct_index": 0 },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "word_order",
+          "prompt_pt_br": "Monte a frase: 'Meu nome é Alex.'",
+          "payload": {
+            "words": ["name", "My", "Alex.", "is"]
+          },
+          "expected": { "sentence": "My name is Alex." },
+          "scoring": { "method": "exact" }
+        }
+      ]
+    },
+    {
+      "kind": "recap",
+      "order_index": 5,
+      "title": "Recap",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "match_en_pt",
+          "prompt_pt_br": "Relacione os pronomes possessivos.",
+          "payload": {
+            "pairs": [
+              { "left": "My", "right": "Meu / Minha" },
+              { "left": "Your", "right": "Seu / Sua" },
+              { "left": "His", "right": "Dele" },
+              { "left": "Her", "right": "Dela" }
+            ]
+          },
+          "expected": { "all_pairs_correct": true },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Tom é homem. Como se diz 'o nome DELE é Tom'?",
+          "payload": {
+            "options": [
+              "Her name is Tom.",
+              "His name is Tom.",
+              "My name is Tom.",
+              "Your name is Tom."
+            ]
+          },
+          "expected": { "correct_index": 1 },
+          "scoring": { "method": "standard" }
+        }
+      ]
+    },
+    {
+      "kind": "self_check",
+      "order_index": 6,
+      "title": "Self-check",
+      "required": false,
+      "payload": {}
+    }
+  ],
+  "pronunciation_targets": [
+    { "text_en": "What's your name?", "focus_phonemes": ["w", "æ", "ts"] },
+    { "text_en": "My name is ___.", "focus_phonemes": ["m", "aɪ", "n"] },
+    { "text_en": "Nice to meet you.", "focus_phonemes": ["n", "aɪs", "t"] }
+  ]
+}

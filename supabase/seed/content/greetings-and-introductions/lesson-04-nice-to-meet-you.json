@@ -1,0 +1,219 @@
+{
+  "slug": "nice-to-meet-you",
+  "order_index": 4,
+  "title_en": "Nice to meet you",
+  "title_pt_br": "Prazer em te conhecer",
+  "level": "a0",
+  "estimated_minutes": 12,
+  "vocabulary": [
+    {
+      "en": "meet",
+      "pt_br": "conhecer / encontrar",
+      "part_of_speech": "verb",
+      "example_en": "Nice to meet you.",
+      "example_pt_br": "Prazer em te conhecer.",
+      "tags": ["verbs", "introductions"]
+    },
+    {
+      "en": "friend",
+      "pt_br": "amigo / amiga",
+      "part_of_speech": "noun",
+      "example_en": "This is my friend Tom.",
+      "example_pt_br": "Este é meu amigo Tom.",
+      "tags": ["people", "social"]
+    },
+    {
+      "en": "this",
+      "pt_br": "este / esta / isso",
+      "part_of_speech": "pronoun",
+      "example_en": "This is my teacher.",
+      "example_pt_br": "Esta é minha professora.",
+      "tags": ["demonstratives"]
+    },
+    {
+      "en": "teacher",
+      "pt_br": "professor / professora",
+      "part_of_speech": "noun",
+      "example_en": "She is my English teacher.",
+      "example_pt_br": "Ela é minha professora de inglês.",
+      "tags": ["people", "school"]
+    },
+    {
+      "en": "student",
+      "pt_br": "aluno / aluna / estudante",
+      "part_of_speech": "noun",
+      "example_en": "I am a student.",
+      "example_pt_br": "Eu sou um estudante.",
+      "tags": ["people", "school"]
+    },
+    {
+      "en": "too",
+      "pt_br": "também",
+      "part_of_speech": "adverb",
+      "example_en": "Nice to meet you too.",
+      "example_pt_br": "Prazer em te conhecer também.",
+      "tags": ["adverbs", "responses"]
+    }
+  ],
+  "phrases": [
+    {
+      "en": "Nice to meet you.",
+      "pt_br": "Prazer em te conhecer.",
+      "function_tag": "meeting-greeting"
+    },
+    {
+      "en": "Nice to meet you too.",
+      "pt_br": "Prazer em te conhecer também.",
+      "function_tag": "meeting-response"
+    },
+    {
+      "en": "Pleased to meet you.",
+      "pt_br": "Muito prazer.",
+      "function_tag": "formal-meeting"
+    },
+    {
+      "en": "This is my friend ___.",
+      "pt_br": "Este/Esta é meu/minha amigo/amiga ___.",
+      "function_tag": "introducing-someone"
+    },
+    {
+      "en": "I am a student.",
+      "pt_br": "Eu sou um estudante.",
+      "function_tag": "stating-role"
+    }
+  ],
+  "grammar": [
+    {
+      "title_pt_br": "'This is' para apresentações",
+      "title_en": "'This is' for introductions",
+      "explanation_pt_br": "Para apresentar alguém, usamos 'This is...' (Este/Esta é...). É diferente de 'My name is...', que você usa para falar de si mesmo. 'This is' apresenta uma terceira pessoa.",
+      "explanation_en": "Use 'This is...' to introduce someone else. Use 'My name is...' or 'I am...' for yourself.",
+      "rule_pattern": "This is + [name / my friend / my teacher]",
+      "examples": [
+        { "en": "This is Ana.", "pt_br": "Esta é a Ana." },
+        { "en": "This is my friend Tom.", "pt_br": "Este é meu amigo Tom." },
+        { "en": "This is my teacher, Ms. Smith.", "pt_br": "Esta é minha professora, Ms. Smith." }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "kind": "intro",
+      "order_index": 1,
+      "title": "Intro",
+      "required": true,
+      "payload": {
+        "objectives": [
+          "Respond when you meet someone new",
+          "Introduce a friend to someone",
+          "Use 'This is...' to introduce people"
+        ]
+      }
+    },
+    {
+      "kind": "new_words",
+      "order_index": 2,
+      "title": "New Words",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "handy_phrases",
+      "order_index": 3,
+      "title": "Handy Phrases",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "drill",
+      "order_index": 4,
+      "title": "Drill",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Alguém diz 'Nice to meet you.' Como você responde?",
+          "payload": {
+            "options": [
+              "Nice to meet you too.",
+              "Goodbye!",
+              "What's your name?",
+              "I am fine, thanks."
+            ]
+          },
+          "expected": { "correct_index": 0 },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "fill_blank",
+          "prompt_pt_br": "Complete: '___ is my friend Carlos.' (palavra de apresentação)",
+          "payload": {
+            "sentence": "___ is my friend Carlos.",
+            "hint": "palavra usada para apresentar alguém"
+          },
+          "expected": { "answer": "This", "alternatives": ["this"] },
+          "scoring": { "method": "exact_ci" }
+        },
+        {
+          "type": "word_order",
+          "prompt_pt_br": "Monte a frase: 'Prazer em te conhecer também.'",
+          "payload": {
+            "words": ["too.", "to", "Nice", "meet", "you"]
+          },
+          "expected": { "sentence": "Nice to meet you too." },
+          "scoring": { "method": "exact" }
+        }
+      ]
+    },
+    {
+      "kind": "recap",
+      "order_index": 5,
+      "title": "Recap",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "match_en_pt",
+          "prompt_pt_br": "Relacione as expressões.",
+          "payload": {
+            "pairs": [
+              { "left": "Nice to meet you.", "right": "Prazer em te conhecer." },
+              { "left": "This is my friend.", "right": "Este é meu amigo." },
+              { "left": "Pleased to meet you.", "right": "Muito prazer." },
+              { "left": "Nice to meet you too.", "right": "Prazer também." }
+            ]
+          },
+          "expected": { "all_pairs_correct": true },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Você quer apresentar sua amiga Ana. O que você diz?",
+          "payload": {
+            "options": [
+              "This is my friend Ana.",
+              "My name is Ana.",
+              "You are Ana.",
+              "Nice to meet Ana."
+            ]
+          },
+          "expected": { "correct_index": 0 },
+          "scoring": { "method": "standard" }
+        }
+      ]
+    },
+    {
+      "kind": "self_check",
+      "order_index": 6,
+      "title": "Self-check",
+      "required": false,
+      "payload": {}
+    }
+  ],
+  "pronunciation_targets": [
+    { "text_en": "Nice to meet you.", "focus_phonemes": ["n", "aɪs", "iː"] },
+    { "text_en": "This is my friend.", "focus_phonemes": ["ð", "ɪs", "f"] },
+    { "text_en": "Pleased to meet you.", "focus_phonemes": ["p", "liːzd", "t"] }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "slug": "where-are-you-from",
+  "order_index": 3,
+  "title_en": "Where are you from?",
+  "title_pt_br": "De onde você é?",
+  "level": "a0",
+  "estimated_minutes": 12,
+  "vocabulary": [
+    {
+      "en": "from",
+      "pt_br": "de (origem)",
+      "part_of_speech": "preposition",
+      "example_en": "I am from Brazil.",
+      "example_pt_br": "Eu sou do Brasil.",
+      "tags": ["prepositions", "origin"]
+    },
+    {
+      "en": "country",
+      "pt_br": "país",
+      "part_of_speech": "noun",
+      "example_en": "Brazil is a big country.",
+      "example_pt_br": "O Brasil é um país grande.",
+      "tags": ["geography"]
+    },
+    {
+      "en": "city",
+      "pt_br": "cidade",
+      "part_of_speech": "noun",
+      "example_en": "I live in a big city.",
+      "example_pt_br": "Eu moro em uma cidade grande.",
+      "tags": ["geography"]
+    },
+    {
+      "en": "Brazil",
+      "pt_br": "Brasil",
+      "part_of_speech": "noun",
+      "example_en": "I am from Brazil.",
+      "example_pt_br": "Eu sou do Brasil.",
+      "tags": ["countries"]
+    },
+    {
+      "en": "the United States",
+      "pt_br": "os Estados Unidos",
+      "part_of_speech": "noun",
+      "example_en": "She is from the United States.",
+      "example_pt_br": "Ela é dos Estados Unidos.",
+      "tags": ["countries"]
+    },
+    {
+      "en": "live",
+      "pt_br": "morar / viver",
+      "part_of_speech": "verb",
+      "example_en": "I live in São Paulo.",
+      "example_pt_br": "Eu moro em São Paulo.",
+      "tags": ["verbs", "basics"]
+    }
+  ],
+  "phrases": [
+    {
+      "en": "Where are you from?",
+      "pt_br": "De onde você é?",
+      "function_tag": "asking-origin"
+    },
+    {
+      "en": "I'm from ___.",
+      "pt_br": "Eu sou de ___.",
+      "function_tag": "stating-origin"
+    },
+    {
+      "en": "I live in ___.",
+      "pt_br": "Eu moro em ___.",
+      "function_tag": "stating-residence"
+    },
+    {
+      "en": "Where do you live?",
+      "pt_br": "Onde você mora?",
+      "function_tag": "asking-residence"
+    },
+    {
+      "en": "I am American.",
+      "pt_br": "Eu sou americano/americana.",
+      "function_tag": "nationality"
+    },
+    {
+      "en": "I am Brazilian.",
+      "pt_br": "Eu sou brasileiro/brasileira.",
+      "function_tag": "nationality"
+    }
+  ],
+  "grammar": [
+    {
+      "title_pt_br": "Verbo 'to be' — presente simples (I, you, he, she)",
+      "title_en": "Verb 'to be' — simple present (I, you, he, she)",
+      "explanation_pt_br": "O verbo 'to be' significa 'ser' ou 'estar'. Ele muda conforme o sujeito: I am (eu sou/estou), you are (você é/está), he is (ele é/está), she is (ela é/está).",
+      "explanation_en": "The verb 'to be' changes with the subject: I am, you are, he is, she is.",
+      "rule_pattern": "I am / You are / He is / She is + [complement]",
+      "examples": [
+        { "en": "I am from Brazil.", "pt_br": "Eu sou do Brasil." },
+        { "en": "You are from the US.", "pt_br": "Você é dos EUA." },
+        { "en": "He is from Canada.", "pt_br": "Ele é do Canadá." },
+        { "en": "She is Brazilian.", "pt_br": "Ela é brasileira." }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "kind": "intro",
+      "order_index": 1,
+      "title": "Intro",
+      "required": true,
+      "payload": {
+        "objectives": [
+          "Ask where someone is from",
+          "Say which country and city you are from",
+          "Use the verb 'to be' with I, you, he, she"
+        ]
+      }
+    },
+    {
+      "kind": "new_words",
+      "order_index": 2,
+      "title": "New Words",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "handy_phrases",
+      "order_index": 3,
+      "title": "Handy Phrases",
+      "required": true,
+      "payload": {}
+    },
+    {
+      "kind": "drill",
+      "order_index": 4,
+      "title": "Drill",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Como se pergunta 'De onde você é?' em inglês?",
+          "payload": {
+            "options": [
+              "Where are you from?",
+              "How are you?",
+              "What is your name?",
+              "Where do you go?"
+            ]
+          },
+          "expected": { "correct_index": 0 },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "fill_blank",
+          "prompt_pt_br": "Complete: 'I ___ from Brazil.' (verbo to be, eu)",
+          "payload": {
+            "sentence": "I ___ from Brazil.",
+            "hint": "verbo to be para 'I'"
+          },
+          "expected": { "answer": "am", "alternatives": ["'m"] },
+          "scoring": { "method": "exact_ci" }
+        },
+        {
+          "type": "word_order",
+          "prompt_pt_br": "Monte a frase: 'Ela é dos Estados Unidos.'",
+          "payload": {
+            "words": ["the", "She", "United", "from", "States.", "is"]
+          },
+          "expected": { "sentence": "She is from the United States." },
+          "scoring": { "method": "exact" }
+        }
+      ]
+    },
+    {
+      "kind": "recap",
+      "order_index": 5,
+      "title": "Recap",
+      "required": true,
+      "payload": {},
+      "exercises": [
+        {
+          "type": "match_en_pt",
+          "prompt_pt_br": "Relacione as formas do verbo 'to be'.",
+          "payload": {
+            "pairs": [
+              { "left": "I am", "right": "Eu sou / estou" },
+              { "left": "You are", "right": "Você é / está" },
+              { "left": "He is", "right": "Ele é / está" },
+              { "left": "She is", "right": "Ela é / está" }
+            ]
+          },
+          "expected": { "all_pairs_correct": true },
+          "scoring": { "method": "standard" }
+        },
+        {
+          "type": "multiple_choice",
+          "prompt_pt_br": "Como se diz 'Eu moro em São Paulo' em inglês?",
+          "payload": {
+            "options": [
+              "I live in São Paulo.",
+              "I am in São Paulo.",
+              "I from São Paulo.",
+              "I living São Paulo."
+            ]
+          },
+          "expected": { "correct_index": 0 },
+          "scoring": { "method": "standard" }
+        }
+      ]
+    },
+    {
+      "kind": "self_check",
+      "order_index": 6,
+      "title": "Self-check",
+      "required": false,
+      "payload": {}
+    }
+  ],
+  "pronunciation_targets": [
+    { "text_en": "Where are you from?", "focus_phonemes": ["w", "ɛr", "ʌ"] },
+    { "text_en": "I'm from Brazil.", "focus_phonemes": ["aɪm", "f", "b"] },
+    { "text_en": "I live in São Paulo.", "focus_phonemes": ["l", "ɪv", "ɪn"] }
+  ]
+}

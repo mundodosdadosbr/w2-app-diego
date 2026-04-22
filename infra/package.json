@@ -1,0 +1,25 @@
+{
+  "name": "w2-infra",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "synth": "cdk synth",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy --all --require-approval never",
+    "deploy:dev": "cdk deploy W2StackDev --require-approval never",
+    "deploy:prod": "cdk deploy W2StackProd --require-approval broadening"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.162.1",
+    "constructs": "10.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "aws-cdk": "2.162.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.6.3"
+  }
+}
