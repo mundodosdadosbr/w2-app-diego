@@ -65,8 +65,7 @@ export default async function ReviewSessionPage() {
   const phraseById = new Map((phrases.data ?? []).map((p) => [p.id, p]));
   const grammarById = new Map((grammars.data ?? []).map((g) => [g.id, g]));
 
-  const items: ReviewItem[] = reviews
-    .map((r) => {
+  const items = (reviews.map((r) => {
       if (r.item_type === "vocab") {
         const v = vocabById.get(r.item_id);
         if (!v) return null;
@@ -105,8 +104,7 @@ export default async function ReviewSessionPage() {
         };
       }
       return null;
-    })
-    .filter((x): x is ReviewItem => x !== null);
+  }).filter(Boolean)) as ReviewItem[];
 
   if (items.length === 0) {
     return <EmptyState />;
