@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  Loader2,
   X,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

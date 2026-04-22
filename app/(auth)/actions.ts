@@ -110,6 +110,34 @@ export async function loginAction(
   redirect(next);
 }
 
+export async function requestMagicLinkAction(
+  _prev: ActionState | null,
+  formData: FormData,
+): Promise<ActionState> {
+  const email = formData.get("email");
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return { ok: false, error: "Email inválido.", fieldErrors: { email: ["Email inválido."] } };
+  }
+  const displayName = formData.get("display_name");
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      data: displayName && typeof displayName === "string" ? { display_name: displayName } : undefined,
+    },
+  });
+
+  if (error) {
+    return { ok: false, error: translateAuthError(error.message) };
+  }
+  return {
+    ok: true,
+    message: "Verifique seu email — enviamos um link de acesso.",
+  };
+}
+
 export async function logoutAction(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();

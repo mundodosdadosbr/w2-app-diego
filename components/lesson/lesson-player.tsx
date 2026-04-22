@@ -50,7 +50,7 @@ export function LessonPlayer({
     [snapshot.sections],
   );
   const [idx, setIdx] = useState(0);
-  const [completedKinds, setCompletedKinds] = useState<Set<string>>(new Set());
+  const [_completedKinds, setCompletedKinds] = useState<Set<string>>(new Set());
   const [finishing, startFinishing] = useTransition();
   const [finishError, setFinishError] = useState<string | null>(null);
 

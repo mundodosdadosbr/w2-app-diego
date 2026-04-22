@@ -9,7 +9,7 @@ import type { ExerciseResult } from "@/components/exercises/multiple-choice";
 
 export function SectionExercises({
   exercises,
-  lessonVersionId,
+  lessonVersionId: _lessonVersionId,
   onAllComplete,
   onAttempt,
 }: {
