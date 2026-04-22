@@ -110,6 +110,8 @@ export async function loginAction(
   redirect(next);
 }
 
+const ALLOWED_EMAIL = "diego.morais@mundodosdadosbr.com";
+
 export async function requestMagicLinkAction(
   _prev: ActionState | null,
   formData: FormData,
@@ -117,6 +119,9 @@ export async function requestMagicLinkAction(
   const email = formData.get("email");
   if (!email || typeof email !== "string" || !email.includes("@")) {
     return { ok: false, error: "Email inválido.", fieldErrors: { email: ["Email inválido."] } };
+  }
+  if (email.trim().toLowerCase() !== ALLOWED_EMAIL) {
+    return { ok: false, error: "Acesso restrito." };
   }
   const displayName = formData.get("display_name");
 

@@ -14,9 +14,20 @@ function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
+const ALLOWED_EMAIL = "diego.morais@mundodosdadosbr.com";
+
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
+
+  // Bloqueia qualquer sessão que não seja do dono do app
+  if (user && user.email?.toLowerCase() !== ALLOWED_EMAIL) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/login";
+    response.cookies.delete("sb-access-token");
+    response.cookies.delete("sb-refresh-token");
+    return NextResponse.redirect(redirectUrl);
+  }
 
   if (isProtected(pathname) && !user) {
     const redirectUrl = request.nextUrl.clone();
