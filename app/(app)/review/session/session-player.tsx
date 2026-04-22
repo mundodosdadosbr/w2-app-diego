@@ -71,10 +71,11 @@ export function ReviewSessionPlayer({ items }: { items: ReviewItem[] }) {
   if (!current) return null;
 
   function handleGrade(grade: 2 | 4 | 5) {
-    if (isPending) return;
+    if (isPending || !current) return;
+    const item = current;
     startTransition(async () => {
       const result = await applyReviewGradeAction({
-        review_id: current.reviewId,
+        review_id: item.reviewId,
         grade,
       });
       if (!result.ok) {
