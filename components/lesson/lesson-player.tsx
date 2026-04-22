@@ -86,8 +86,9 @@ export function LessonPlayer({
   }
 
   async function handleNext() {
-    await markVisited(current, true);
-    setCompletedKinds((prev) => new Set(prev).add(current.kind));
+    const section = current;
+    await markVisited(section, true);
+    setCompletedKinds((prev) => new Set(prev).add(section.kind));
     if (idx + 1 < sections.length) {
       setIdx(idx + 1);
     } else {
