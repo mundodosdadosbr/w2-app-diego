@@ -15,13 +15,17 @@ export function MatchEnPtExercise({
   exercise: SnapshotExercise;
   onComplete: (result: ExerciseResult) => void;
 }) {
-  const pairs = (exercise.payload.pairs as Pair[]) ?? [];
+  const pairs = useMemo(
+    () => (exercise.payload.pairs as Pair[]) ?? [],
+    // exercise.payload is stable for the lifetime of this component
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [exercise.id],
+  );
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [matches, setMatches] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [startedAt] = useState(() => Date.now());
 
-  // Embaralha as colunas na montagem
   const shuffledRights = useMemo(
     () => [...pairs].sort(() => Math.random() - 0.5).map((p) => p.right),
     [pairs],

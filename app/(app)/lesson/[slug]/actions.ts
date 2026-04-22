@@ -45,7 +45,8 @@ export async function submitAttemptAction(
       lesson_version_id: parsed.data.lesson_version_id,
       grade: parsed.data.grade,
       is_correct: parsed.data.is_correct ?? null,
-      response: parsed.data.response,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      response: parsed.data.response as any,
       time_ms: parsed.data.time_ms ?? null,
       attempt_number: (count ?? 0) + 1,
     })
