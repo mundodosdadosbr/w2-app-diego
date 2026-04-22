@@ -29,7 +29,7 @@
   ],
   "exclude": [
     "node_modules",
-    "infra/cdk.out",
+    "infra",
     "supabase/functions/**/*",
     "supabase/tests/**/*",
     "tests/e2e/**/*"
