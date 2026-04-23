@@ -17,7 +17,7 @@ async function getAppUrl(): Promise<string> {
   const host = h.get("x-forwarded-host") ?? h.get("host");
   const proto = h.get("x-forwarded-proto") ?? "https";
   if (host) return `${proto}://${host}`;
-  return publicEnv.NEXT_PUBLIC_APP_URL;
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 }
 
 type ActionState =
