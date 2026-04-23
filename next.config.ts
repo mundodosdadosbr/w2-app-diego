@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
   // Nota: `experimental.typedRoutes` foi removido porque Turbopack (next dev --turbo)
