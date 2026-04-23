@@ -1,10 +1,8 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { AwsClient } from "https://esm.sh/aws4fetch@1.0.20";
 
-// ElevenLabs — Rachel (en-US, American English)
-const DEFAULT_VOICE_ID =
-  Deno.env.get("ELEVENLABS_VOICE_ID") ?? "21m00Tcm4TlvDq8ikWAM";
-const ELEVENLABS_KEY = Deno.env.get("ELEVENLABS_API_KEY");
+const REGION = "us-east-1";
 const TTS_BUCKET = "tts-cache";
 
 const CORS = {
@@ -29,22 +27,25 @@ async function sha256Hex(text: string): Promise<string> {
     .join("");
 }
 
+function decodeJwtSub(authHeader: string): string | null {
+  try {
+    const token = authHeader.replace("Bearer ", "");
+    const [, b64] = token.split(".");
+    const payload = JSON.parse(atob(b64.replace(/-/g, "+").replace(/_/g, "/")));
+    return payload.sub ?? null;
+  } catch {
+    return null;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: CORS });
   }
 
   const authHeader = req.headers.get("Authorization");
-  if (!authHeader) return json({ error: "Unauthorized" }, 401);
-
-  // Valida JWT
-  const userClient = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_ANON_KEY")!,
-    { global: { headers: { Authorization: authHeader } } },
-  );
-  const { error: authErr } = await userClient.auth.getUser();
-  if (authErr) return json({ error: "Unauthorized" }, 401);
+  const userId = authHeader ? decodeJwtSub(authHeader) : null;
+  if (!userId) return json({ error: "Unauthorized" }, 401);
 
   const body = await req.json();
   const { text, voice_id } = body;
@@ -52,14 +53,14 @@ Deno.serve(async (req) => {
     return json({ error: "text required (max 1000 chars)" }, 400);
   }
 
-  if (!ELEVENLABS_KEY) {
-    return json({ error: "ELEVENLABS_API_KEY not configured" }, 503);
-  }
+  // voice_id: "Ruth" (generative, en-US) | qualquer VoiceId do Polly
+  const voiceId = (voice_id as string | undefined) ?? "Ruth";
+  // rate: velocidade da fala em % — 90% é levemente mais devagar, bom para aprendizado
+  const rate = (body.rate as string | undefined) ?? "90%";
+  const cacheKey = `${await sha256Hex(text + voiceId + rate)}.mp3`;
+  // Escapa caracteres XML especiais para uso seguro em SSML
+  const xmlText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  const voiceId = voice_id ?? DEFAULT_VOICE_ID;
-  const cacheKey = `${await sha256Hex(text + voiceId)}.mp3`;
-
-  // Service role para storage
   const admin = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
@@ -77,37 +78,69 @@ Deno.serve(async (req) => {
     return json({ url: publicUrl, cached: true });
   }
 
-  // Gera via ElevenLabs
-  const ttsRes = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+  const aws = new AwsClient({
+    accessKeyId: Deno.env.get("AWS_ACCESS_KEY_ID")!,
+    secretAccessKey: Deno.env.get("AWS_SECRET_ACCESS_KEY")!,
+    region: REGION,
+    service: "polly",
+  });
+
+  // Tenta engine generative primeiro (mais natural); fallback para neural
+  let pollyRes = await aws.fetch(
+    `https://polly.${REGION}.amazonaws.com/v1/speech`,
     {
       method: "POST",
-      headers: {
-        "xi-api-key": ELEVENLABS_KEY,
-        "Content-Type": "application/json",
-        Accept: "audio/mpeg",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        text,
-        model_id: "eleven_turbo_v2",
-        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+        Text: `<speak><prosody rate="${rate}">${xmlText}</prosody></speak>`,
+        TextType: "ssml",
+        OutputFormat: "mp3",
+        VoiceId: voiceId,
+        Engine: "generative",
+        LanguageCode: "en-US",
       }),
     },
   );
 
-  if (!ttsRes.ok) {
-    const errText = await ttsRes.text();
-    console.error("ElevenLabs error:", ttsRes.status, errText);
-    return json({ error: "TTS generation failed" }, 502);
+  // Se generative não estiver disponível para essa voz, tenta neural
+  if (!pollyRes.ok) {
+    const errText = await pollyRes.text();
+    if (pollyRes.status === 400 && errText.includes("engine")) {
+      pollyRes = await aws.fetch(
+        `https://polly.${REGION}.amazonaws.com/v1/speech`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Text: `<speak><prosody rate="${rate}">${xmlText}</prosody></speak>`,
+            TextType: "ssml",
+            OutputFormat: "mp3",
+            VoiceId: voiceId,
+            Engine: "neural",
+            LanguageCode: "en-US",
+          }),
+        },
+      );
+    } else {
+      console.error("Polly error:", pollyRes.status, errText);
+      return json({ error: "TTS generation failed", detail: errText }, 502);
+    }
   }
 
-  const audioBuffer = await ttsRes.arrayBuffer();
+  if (!pollyRes.ok) {
+    const errText = await pollyRes.text();
+    console.error("Polly fallback error:", pollyRes.status, errText);
+    return json({ error: "TTS generation failed", detail: errText }, 502);
+  }
+
+  const audioBuffer = new Uint8Array(await pollyRes.arrayBuffer());
 
   const { error: uploadErr } = await admin.storage
     .from(TTS_BUCKET)
     .upload(cacheKey, audioBuffer, { contentType: "audio/mpeg", upsert: true });
 
   if (uploadErr) {
+    console.error("Upload error:", uploadErr.message);
     return json({ error: uploadErr.message }, 500);
   }
 

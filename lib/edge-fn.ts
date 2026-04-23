@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { publicEnv } from "@/lib/env";
 
 /** Chama uma Supabase Edge Function autenticada com o JWT do usuário atual. */
 export async function callEdgeFn<T>(
@@ -9,23 +8,20 @@ export async function callEdgeFn<T>(
   body: unknown,
 ): Promise<T | null> {
   const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session) return null;
 
-  const res = await fetch(
-    `${publicEnv.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/${fnName}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    },
-  );
+  // Log do token enviado para debug
+  const { data: { session } } = await supabase.auth.getSession();
+  console.log(`[callEdgeFn] ${fnName} — session:`, session ? `OK (exp ${new Date(session.expires_at! * 1000).toISOString()})` : "NULL");
 
-  if (!res.ok) return null;
-  return res.json() as Promise<T>;
+  const { data, error } = await supabase.functions.invoke<T>(fnName, {
+    body: body as Record<string, unknown>,
+  });
+
+  if (error) {
+    // data ainda pode conter o body JSON retornado pela função mesmo em erro
+    console.error(`[callEdgeFn] ${fnName} error:`, error.message, "| data:", JSON.stringify(data));
+    return null;
+  }
+
+  return data;
 }

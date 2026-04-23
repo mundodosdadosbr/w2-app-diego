@@ -30,7 +30,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/auth/update-password`);
   }
 
-  // Confirmação pós-signup — vai pro onboarding
-  const next = nextParam ?? "/onboarding/welcome";
-  return NextResponse.redirect(`${origin}${next}`);
+  if (nextParam) {
+    return NextResponse.redirect(`${origin}${nextParam}`);
+  }
+
+  // Verifica se onboarding já foi concluído
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("onboarded_at")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (profile?.onboarded_at) {
+      return NextResponse.redirect(`${origin}/dashboard`);
+    }
+  }
+
+  return NextResponse.redirect(`${origin}/onboarding/welcome`);
 }

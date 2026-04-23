@@ -126,6 +126,15 @@ export class W2Stack extends cdk.Stack {
       }),
     );
 
+    // Polly — síntese de voz (TTS, UC-08).
+    edgeUser.addToPolicy(
+      new iam.PolicyStatement({
+        sid: "PollyTts",
+        actions: ["polly:SynthesizeSpeech", "polly:DescribeVoices"],
+        resources: ["*"],
+      }),
+    );
+
     // Transcribe — jobs + custom vocabulary (UC-03).
     edgeUser.addToPolicy(
       new iam.PolicyStatement({

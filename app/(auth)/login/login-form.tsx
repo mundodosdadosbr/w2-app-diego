@@ -75,6 +75,15 @@ export function LoginForm({ next: _next }: { next?: string }) {
       <p className="text-center text-[11px] text-muted-foreground">
         Sem senha. Link único no seu email, válido por 1 hora.
       </p>
+
+      {process.env.NODE_ENV === "development" && (
+        <a
+          href="/api/dev-login"
+          className="block w-full rounded-lg border border-dashed border-amber-500/50 bg-amber-500/10 py-2 text-center text-xs text-amber-400 hover:bg-amber-500/20"
+        >
+          ⚡ Dev login (sem email)
+        </a>
+      )}
     </form>
   );
 }

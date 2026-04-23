@@ -70,16 +70,18 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: CORS });
   }
 
+  // verify_jwt: true no gateway já validou o JWT — extrai user_id do payload localmente.
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) return json({ error: "Unauthorized" }, 401);
 
-  const userClient = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_ANON_KEY")!,
-    { global: { headers: { Authorization: authHeader } } },
-  );
-  const { data: { user }, error: authErr } = await userClient.auth.getUser();
-  if (authErr || !user) return json({ error: "Unauthorized" }, 401);
+  const token = authHeader.replace("Bearer ", "");
+  const [, payloadB64] = token.split(".");
+  const payload = JSON.parse(atob(payloadB64.replace(/-/g, "+").replace(/_/g, "/")));
+  const userId: string = payload.sub;
+  if (!userId) return json({ error: "Unauthorized" }, 401);
+
+  // Cria objeto user-like para compatibilidade com o restante do código
+  const user = { id: userId };
 
   const body = await req.json();
   const { audio_base64, expected, pronunciation_target_id, exercise_id, lesson_version_id, retry_number } = body;
