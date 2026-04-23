@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import {
   signupSchema,
@@ -10,6 +11,14 @@ import {
   resetPasswordSchema,
 } from "@/schemas/auth";
 import { publicEnv } from "@/lib/env";
+
+async function getAppUrl(): Promise<string> {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  if (host) return `${proto}://${host}`;
+  return publicEnv.NEXT_PUBLIC_APP_URL;
+}
 
 type ActionState =
   | { ok: true; message?: string }
@@ -42,7 +51,7 @@ export async function signupAction(
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
-      emailRedirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      emailRedirectTo: `${await getAppUrl()}/auth/callback`,
       data: parsed.data.display_name
         ? { display_name: parsed.data.display_name }
         : undefined,
@@ -129,7 +138,7 @@ export async function requestMagicLinkAction(
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      emailRedirectTo: `${await getAppUrl()}/auth/callback`,
       data: displayName && typeof displayName === "string" ? { display_name: displayName } : undefined,
     },
   });
@@ -168,7 +177,7 @@ export async function requestPasswordResetAction(
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(
     parsed.data.email,
-    { redirectTo: `${publicEnv.NEXT_PUBLIC_APP_URL}/auth/callback?type=recovery` },
+    { redirectTo: `${await getAppUrl()}/auth/callback?type=recovery` },
   );
   if (error) {
     return { ok: false, error: translateAuthError(error.message) };
