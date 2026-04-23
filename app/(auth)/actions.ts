@@ -10,7 +10,6 @@ import {
   resetRequestSchema,
   resetPasswordSchema,
 } from "@/schemas/auth";
-import { publicEnv } from "@/lib/env";
 
 async function getAppUrl(): Promise<string> {
   const h = await headers();
