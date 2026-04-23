@@ -12,11 +12,14 @@ import {
 } from "@/schemas/auth";
 
 async function getAppUrl(): Promise<string> {
+  // APP_URL (server-only, sem NEXT_PUBLIC_) é lida em runtime — nunca embutida no build.
+  // Fallback para x-forwarded-host caso a variável não esteja configurada.
+  if (process.env.APP_URL) return process.env.APP_URL;
   const h = await headers();
   const host = h.get("x-forwarded-host") ?? h.get("host");
   const proto = h.get("x-forwarded-proto") ?? "https";
-  if (host) return `${proto}://${host}`;
-  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  if (host && !host.startsWith("localhost")) return `${proto}://${host}`;
+  return "http://localhost:3000";
 }
 
 type ActionState =
